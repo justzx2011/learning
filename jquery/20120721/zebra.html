@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>Zebra Tables Demo</title>
+<script type="text/javascript">
+
+var Event = {
+	add: function(obj,type,fn) {
+		if (obj.attachEvent) {
+			obj['e'+type+fn] = fn;
+			obj[type+fn] = function() { obj['e'+type+fn](window.event); }
+			obj.attachEvent('on'+type,obj[type+fn]);
+		} else
+		obj.addEventListener(type,fn,false);
+	},
+	remove: function(obj,type,fn) {
+		if (obj.detachEvent) {
+			obj.detachEvent('on'+type,obj[type+fn]);
+			obj[type+fn] = null;
+		} else
+		obj.removeEventListener(type,fn,false);
+	}
+}
+
+function $() {
+	var elements = new Array();
+	for (var i=0;i<arguments.length;i++) {
+		var element = arguments[i];
+		if (typeof element == 'string') element = document.getElementById(element);
+		if (arguments.length == 1) return element;
+		elements.push(element);
+	}
+	return elements;
+}
+
+String.prototype.trim = function() {
+	return this.replace(/^\s+|\s+$/,"");
+}
+
+function addClassName(el,className) {
+	removeClassName(el,className);
+	el.className = (el.className + " " + className).trim();
+}
+
+function removeClassName(el,className) {
+	el.className = el.className.replace(className,"").trim();
+}
+
+var ZebraTable = {
+	bgcolor: '',
+	classname: '',
+	stripe: function(el) {
+		if (!$(el)) return;
+		var rows = $(el).getElementsByTagName('tr');
+		for (var i=1,len=rows.length;i<len;i++) {
+			if (i % 2 == 0) rows[i].className = 'alt';
+			Event.add(rows[i],'mouseover',function() { ZebraTable.mouseover(this); });
+			Event.add(rows[i],'mouseout',function() { ZebraTable.mouseout(this); });
+		}
+	},
+	mouseover: function(row) {
+		this.bgcolor = row.style.backgroundColor;
+		this.classname = row.className;
+		addClassName(row,'over');
+	},
+	mouseout: function(row) {
+		removeClassName(row,'over');
+		addClassName(row,this.classname);
+		row.style.backgroundColor = this.bgcolor;
+	}
+}
+
+window.onload = function() {
+	ZebraTable.stripe('mytable');
+}
+
+</script>
+<style type="text/css">
+
+body {
+	background: #fff;
+}
+
+table {
+	border-collapse: collapse;
+	width: 50%;
+	margin: 24px;
+	font-size: 1.1em;
+}
+
+th {
+	background: #3e83c9;
+	color: #fff;
+	font-weight: bold;
+	padding: 2px 11px;
+	text-align: left;
+	border-right: 1px solid #fff;
+	line-height: 1.2;
+}
+
+td {
+	padding: 6px 11px;
+	border-bottom: 1px solid #95bce2;
+	vertical-align: top;
+}
+
+td * {
+	padding: 6px 11px;
+}
+
+tr.alt td {
+	background: #ecf6fc;
+}
+
+tr.over td, tr:hover td {
+	background: #bcd4ec;
+}
+
+</style>
+</head>
+
+<body>
+
+<table id="mytable">
+	<thead>
+		<tr>
+			<th>Lorem</th>
+			<th>Ipsum</th>
+			<th>Dolor</th>
+			<th>Sit</th>
+			<th>Amet</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+		<tr>
+			<td>Lorem</td>
+			<td>Ipsum</td>
+			<td>Dolor</td>
+			<td>Sit</td>
+			<td>Amet</td>
+		</tr>
+	</tbody>
+</table>
+
+</body>
+</html>
+
